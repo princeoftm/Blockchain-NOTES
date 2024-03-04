@@ -5,8 +5,3 @@ contract Hi{
         return "Hello World";
     }
 }
-
-contract deploycontract{
-    Hi public hello;
-    hello{value:60 ether};
-}
