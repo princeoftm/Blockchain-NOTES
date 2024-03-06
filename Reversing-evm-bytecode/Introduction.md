@@ -39,3 +39,15 @@ Lemme explain
 so basically The instruction at byte 00 (the first byte) in the smart contract is PUSH 80 (translated to 6080in byte-code opcode).
 The instruction at byte 41 is PUSH1 00(and with 1 argument which is 00) (6000 in byte-code opcode).
 The instruction at byte 56 is CALLDATALOAD without arguments ( 80in byte-code opcode). I highlighted these instructions in the contract byte-code upwards.
+
+We know that there are 3 ways of storage in solidity
+
+1.Slot-stored in 32 bit numbers
+2.Memory-hex number
+3.LIFO type storage where each slot is shown by a number
+
+How does LIFO work tho?
+
+There are only two ways of writing to LIFO
+1)PUSH
+2)POP
