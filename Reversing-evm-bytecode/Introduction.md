@@ -8,7 +8,7 @@ We can only read its "Byte-code" i.e
 
 Ok so im gonna do a pro-gamer move.
 (Im gonna deploy my own contract and reverse it).
-
+```
 This is the contract im going to decompile 
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.0;
@@ -20,7 +20,7 @@ contract Test {
     
    function test3() external {      }  
 }
-
+```
 
 putting this in remix and debugging it we get 
 
