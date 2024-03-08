@@ -45,3 +45,24 @@ function writeToSlot(uint256 slot, uint256 value) public {
 }
 ```
 In this example, we have a state variable `data`, and the `writeToSlot` function takes two parameters: `slot` and `value`. The `slot` parameter represents the slot number where we want to write the data, and the `value` parameter is the data we want to store.
+
+Step 3: Putting It All Together 🔄
+Now, let’s tie everything together in a complete example:
+```
+contract WriteToAnySlotExample {
+ uint256 public data;
+function writeToSlot(uint256 slot, uint256 value) public {
+ assembly {
+ // Calculate the storage position
+ let storagePosition := add(slot, 1)
+// Write the value to the specified slot
+ sstore(storagePosition, value)
+ }
+ }
+function readData() public view returns (uint256) {
+ return data;
+ }
+}
+```
+In this example, we have a state variable `data`, and the `writeToSlot` function allows us to write data to any slot. The `readData` function simply returns the value of `data`, allowing us to verify that the writing process was successful.
+
