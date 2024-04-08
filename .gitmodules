@@ -4,3 +4,6 @@
 [submodule "Invariant-test/invariant-exercise/lib/forge-std"]
 	path = Invariant-test/invariant-exercise/lib/forge-std
 	url = https://github.com/foundry-rs/forge-std
+[submodule "GAS-OPTIMIZATIONS-OPC/1-horse-store/lib/forge-std"]
+	path = GAS-OPTIMIZATIONS-OPC/1-horse-store/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
