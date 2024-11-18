@@ -13,8 +13,8 @@ An intro to problem-optimizer steps.
 In solidity optimizer steps are used to efficiently optimize the compilation process.It works by r works by refining the unoptimized IR produced by the code generator in discrete steps, each one receiving the output of the previous one. The order of steps is determined by the step sequence.
 
 What do you need-
-1)An optimizer sequence that does not prepare the  prerequesites for Fullinliner.
-2)An Nested-Function call
+1)An optimizer sequence that does not prepare the  prerequesites for Fullinliner or the expression inliner.
+2)An Nested-Function call with side effects
 3)Solidity Optimizer level between 0.6.7 and 0.8.21
 
 1)Examples with inline assembly
@@ -135,7 +135,7 @@ Which would allow it to be inlined.
             }
 ```
 
-Notice how again it does it from left to right,Completely chaging the order that it is supposed to be in.
+Notice how again it does it from left to right,Completely chaging the order that it is supposed to be in.This also returns a value of 17.
 
 Now lets see what happens to it on a more stable version like 0.8.21
 
@@ -160,4 +160,4 @@ Now lets see what happens to it on a more stable version like 0.8.21
             }
 ```
 
-Notice How it does this in the proper order.
+Notice How it does this in the proper order.Also notice that it being the same code it returns a value of 12.
