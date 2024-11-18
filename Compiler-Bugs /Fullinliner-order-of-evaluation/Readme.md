@@ -159,4 +159,7 @@ Now lets see what happens to it on a more stable version like 0.8.21
 
 Notice How it does this in the proper order.Also notice that it being the same code it returns a value of 12.
 
-Sequence used-solc t.sol -o results --debug-info none   --overwrite --optimize --ir-optimized --yul-optimizations "dhfoDgvlfnTUtnIf a[r]EscLM Vcl Trpel a[r]cL [j]  "
+Sequence used-
+```
+solc t.sol -o results --debug-info none   --overwrite --optimize --ir-optimized --yul-optimizations "dhfoDgvlfnTUtnIf a[r]EscLM Vcl Trpel a[r]cL [j]  "
+```
