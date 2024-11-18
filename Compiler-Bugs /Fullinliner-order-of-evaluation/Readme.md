@@ -1,5 +1,7 @@
 Prerequisites-
 1)An understanding of compiler steps.
+
+
 2)19CSE401-Compiler Design
 
 An intro to The bug-
@@ -17,7 +19,7 @@ What do you need-
 
 1)Examples with inline assembly
 Consider Example1.sol
-
+```
 contract C {
     function f() public {
         assembly  {
@@ -29,7 +31,7 @@ contract C {
         }
     }
 }
-
+```
 
 It looks like a normal function right? But since it evaluates from right to left,this is a function that is expected to revert.
 
