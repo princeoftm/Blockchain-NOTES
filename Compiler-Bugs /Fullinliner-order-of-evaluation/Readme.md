@@ -161,5 +161,5 @@ Notice How it does this in the proper order.Also notice that it being the same c
 
 Sequence used-
 ```
-solc t.sol -o results --debug-info none   --overwrite --optimize --ir-optimized --yul-optimizations "dhfoDgvlfnTUtnIf a[r]EscLM Vcl Trpel a[r]cL [j]  "
+solc t.sol -o results --debug-info none   --overwrite --optimize --ir-optimized --yul-optimizations "dhfoDgvlfnTUtnIf a[r]EscLM Vcl Trpel a[r]cL [j] gvifM "
 ```
