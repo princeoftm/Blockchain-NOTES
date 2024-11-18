@@ -12,7 +12,8 @@ In solidity optimizer steps are used to efficiently optimize the compilation pro
 
 What do you need-
 1)An optimizer sequence that does not prepare the  prerequesites for Fullinliner.
-2)
+2)An Nested-Function call
+3)Solidity Optimizer level between 0.6.7 and 0.8.21
 
 1)Examples with inline assembly
 Consider Example1.sol
@@ -133,3 +134,28 @@ Which would allow it to be inlined.
 ```
 
 Notice how again it does it from left to right,Completely chaging the order that it is supposed to be in.
+
+Now lets see what happens to it on a more stable version like 0.8.21
+
+```
+            function external_fun_trigger()
+            {
+                if callvalue() { revert(0, 0) }
+                let _1 := 0
+                if slt(add(calldatasize(), not(3)), _1) { revert(_1, _1) }
+                let _2 := sload(_1)
+                if gt(_2, not(2))
+                {
+                    mstore(_1, shl(224, 0x4e487b71))
+                    mstore(4, 0x11)
+                    revert(_1, 0x24)
+                }
+                sstore(_1, 0x02)
+                let var := checked_add_uint256_906(add(_2, 0x02))
+                let memPos := mload(64)
+                mstore(memPos, var)
+                return(memPos, 32)
+            }
+```
+
+Notice How it does this in the proper order.
