@@ -104,10 +104,10 @@ Consider this
                 var_ := fun_empty(fun_add(extract_from_storage_value_offsett_uint256(sload(0x00)), 0x02))
             }
 ```
-When i call fun_empty() it directly puts fun_add(extract_from_storage_value_offsett_uint256(sload(0x00)), 0x02) into the empty1 call so i get 
-
+When i call fun_empty() it directly puts the add function directly into the empty1 call so i get 
+```
 var := fun_empty1(fun_add(extract_from_storage_value_offsett_uint256(sload(0x00)), 0x02), fun_add(0x02, 0x03))
-
+```
 Which would allow it to be inlined.
 
 ```
