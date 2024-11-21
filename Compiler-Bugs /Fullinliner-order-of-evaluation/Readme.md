@@ -34,8 +34,11 @@ contract C {
 It looks like a normal function right? But since it evaluates from right to left,this is a function that is expected to revert.
 
 Consider what happens when i put an optimizer step "i"?
+```
 solc test.sol -o results --debug-info none   --overwrite --optimize --ir-optimized --yul-optimizations "i " 
 
+```
+```
                 if iszero(lt(calldatasize(), 4))
                 {
                     let value := calldataload(0)
@@ -51,7 +54,7 @@ solc test.sol -o results --debug-info none   --overwrite --optimize --ir-optimiz
                         let usr$ret := 0
                         return(usr$ret, usr$ret)
                     }
-
+```
 It returns a value,that its not supposed to.This is very dangerous and can lead to Other outcomes.
 
 
