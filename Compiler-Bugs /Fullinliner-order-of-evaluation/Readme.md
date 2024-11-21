@@ -364,7 +364,7 @@ function fun_trigger() -> var
             }
 
 ```
-Notice How fun_add1(_2,0x03) is treated as a literal here.This also means it is done from right to left.
+Notice How fun_add1(_2,0x03) is treated as a literal here.This also means it is done from left to right.
 
 
 Therefore i can say that,The bug has the potential to alter the behavior of a contract in a very significant way. Reordering reverts or returns may lead to storage writes, memory writes, or event emissions not being performed. It may also lead to the contract not reverting (and therefore not rolling back some operations) when it should or vice-versa.
