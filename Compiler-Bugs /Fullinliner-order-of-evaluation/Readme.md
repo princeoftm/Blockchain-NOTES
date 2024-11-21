@@ -65,7 +65,9 @@ Optimizer sequence used
 ```solc t1.sol -o results --debug-info none   --overwrite --optimize --ir-optimized --yul-optimizations "dhfoDgvlfnTUtnIftreupl a[r]cL Vcul[j] i"```
 
 An explanation for the optimizer sequence used 
+
 1)This is inspired by the new optimizer sequence but focused on getting Non-expression-split form to i(fullinliner).
+
 2)Yes i still used it to get non static assignment form to i.
 
 
