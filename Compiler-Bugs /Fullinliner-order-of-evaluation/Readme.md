@@ -165,7 +165,7 @@ function fun_empty1(var_a, var_b) -> var
 which it does in a correct order.
 
 
-    2)Consider example 5(An example where it is supposed to revert but does not revert)
+2)Consider example 5(An example where it is supposed to revert but does not revert)
 
 The function check will always revert here as x==10 is not true .Using The same optimizer sequence above in 0.8.21 gives me this 
 
