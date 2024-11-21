@@ -313,6 +313,58 @@ function fun_empty1(var_a, var_b) -> var
 
 Remember var_a is change() which changes the value so that check will always become true;
 
+3)Consider Example6.sol.(Calling those functions directly)
+
+```
+pragma solidity >=0.6.7 <0.8.29;
+
+contract S3{
+  uint256 x = 10; 
+  function add(uint256 a,uint b) public  returns (uint256) {
+      x=b;
+      return a+b;
+    }
+  function add1(uint256 a,uint b) public  returns (uint256) {
+      x=a;
+      return a+b;
+    }
+
+    function trigger() public  returns (uint256) {
+        return add(add(x,2),add1(2,3));
+    }
+}
+```
+
+When using the above Optimizer sequence i get on 0.8.13
+
+```
+function fun_trigger() -> var
+            {
+                let slot_value := sload(0x00)
+                let value := 0
+                value := shr(value, slot_value)
+                let _1 := value
+                let _2 := 0x02
+                let var_a := value
+                let var_b := _2
+                let var_1 := 0
+                let slot := var_1
+                let value_1 := _2
+                sstore(var_1, update_byte_slice_shift(sload(var_1), _2))
+                var_1 := checked_add_uint256(value, _2)
+                let expr := var_1
+                let var_a_1 := var_1
+                let var_b_1 := fun_add1(_2, 0x03)
+                let var_2 := 0
+                let slot_1 := var_2
+                let value_2 := var_b_1
+                sstore(var_2, update_byte_slice_shift(sload(var_2), var_b_1))
+                var_2 := checked_add_uint256(var_1, var_b_1)
+                var := var_2
+            }
+
+```
+Notice How fun_add1(_2,0x03) is treated as a literal here.This also means it is done from right to left.
 
 
 Therefore i can say that,The bug has the potential to alter the behavior of a contract in a very significant way. Reordering reverts or returns may lead to storage writes, memory writes, or event emissions not being performed. It may also lead to the contract not reverting (and therefore not rolling back some operations) when it should or vice-versa.
