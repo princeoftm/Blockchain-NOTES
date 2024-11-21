@@ -1,47 +1,25 @@
-/// @use-src 0:"Example3.sol"
-object "S_83" {
+/// @use-src 0:"t.sol"
+object "S_81" {
     code {
         {
-            let _1 := memoryguard(0x80)
-            let _2 := 64
-            mstore(_2, _1)
-            if callvalue()
-            {
-                let _3 := 0
-                let _4 := _3
-                revert(_3, _3)
-            }
+            mstore(64, memoryguard(0x80))
+            if callvalue() { revert(0, 0) }
             let slot := 0x00
             let value := 0x0a
             sstore(slot, update_byte_slice_shift(sload(slot), value))
-            let slot_1 := 0x01
-            let value_1 := 0x14
-            sstore(slot_1, update_byte_slice_shift(sload(slot_1), value_1))
-            let _5 := _2
-            let _6 := _1
-            let _7 := datasize("S_83_deployed")
-            codecopy(_1, dataoffset("S_83_deployed"), _7)
-            return(_1, _7)
+            let _1 := mload(64)
+            codecopy(_1, dataoffset("S_81_deployed"), datasize("S_81_deployed"))
+            return(_1, datasize("S_81_deployed"))
         }
         function revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb()
-        {
-            let _1 := 0
-            let _2 := _1
-            revert(_1, _1)
-        }
+        { revert(0, 0) }
         function update_byte_slice_shift(value, toInsert) -> result
         {
             let toInsert_1 := shl(0, toInsert)
-            let _1 := not(0)
-            let value_1 := and(value, not(_1))
-            let _2 := _1
-            result := or(value_1, and(toInsert_1, _1))
+            let value_1 := and(value, not(not(0)))
+            result := or(value_1, and(toInsert_1, not(0)))
         }
         function update_storage_value_offsett_rational_by_to_uint256(slot, value)
-        {
-            sstore(slot, update_byte_slice_shift(sload(slot), value))
-        }
-        function update_storage_value_offsett_rational_by_to_t_uint256(slot, value)
         {
             sstore(slot, update_byte_slice_shift(sload(slot), value))
         }
@@ -50,13 +28,10 @@ object "S_83" {
             let slot := 0x00
             let value := 0x0a
             sstore(slot, update_byte_slice_shift(sload(slot), value))
-            let slot_1 := 0x01
-            let value_1 := 0x14
-            sstore(slot_1, update_byte_slice_shift(sload(slot_1), value_1))
         }
     }
-    /// @use-src 0:"Example3.sol"
-    object "S_83_deployed" {
+    /// @use-src 0:"t.sol"
+    object "S_81_deployed" {
         code {
             {
                 mstore(64, memoryguard(0x80))
@@ -64,33 +39,15 @@ object "S_83" {
                 {
                     switch shr(224, calldataload(0))
                     case 0x76b81449 {
-                        if callvalue()
-                        {
-                            let _1 := 0
-                            let _2 := _1
-                            revert(_1, _1)
-                        }
-                        let headStart := 4
-                        let dataEnd := calldatasize()
-                        let value0 := 0
-                        let value1 := value0
-                        if slt(sub(dataEnd, headStart), 64)
-                        {
-                            let _3 := value0
-                            let _4 := value0
-                            revert(value0, value0)
-                        }
-                        value0 := abi_decode_uint256(add(headStart, value0))
-                        value1 := abi_decode_uint256(add(headStart, 32))
-                        let param := value0
-                        let param_1 := value1
-                        let var_a := value0
-                        let var_b := value1
+                        if callvalue() { revert(0, 0) }
+                        let param, param_1 := abi_decode_uint256t_uint256(4, calldatasize())
+                        let var_a := param
+                        let var_b := param_1
                         let var := 0
                         let slot := var
-                        let value := value0
-                        sstore(var, update_byte_slice_shift(sload(var), value0))
-                        var := checked_add_uint256(value0, value1)
+                        let value := param
+                        sstore(var, update_byte_slice_shift(sload(var), param))
+                        var := checked_add_uint256(param, param_1)
                         let ret := var
                         let memPos := mload(64)
                         return(memPos, sub(abi_encode_uint256(memPos, var), memPos))
@@ -100,48 +57,52 @@ object "S_83" {
                     case 0xf3a3e4fe { external_fun_empty() }
                     case 0xfcd47b43 { external_fun_empty1() }
                 }
-                let _5 := 0
-                let _6 := _5
-                revert(_5, _5)
+                revert(0, 0)
             }
             function revert_error_ca66f745a3ce8ff40e2ccaf1ad45db7774001b90d25810abd9040049be7bf4bb()
-            {
-                let _1 := 0
-                let _2 := _1
-                revert(_1, _1)
-            }
+            { revert(0, 0) }
             function validator_revert_uint256(value)
             {
-                if iszero(eq(value, value))
-                {
-                    let _1 := 0
-                    let _2 := _1
-                    revert(_1, _1)
-                }
+                if iszero(eq(value, value)) { revert(0, 0) }
             }
             function abi_decode_uint256(offset) -> value
             {
-                let value_1 := calldataload(offset)
+                value := calldataload(offset)
+                let value_1 := value
+                if iszero(eq(value, value)) { revert(0, 0) }
+            }
+            function abi_decode_uint256_1(offset, end) -> value
+            {
+                let offset_1 := offset
+                let value_1 := 0
+                value_1 := calldataload(offset)
                 let value_2 := value_1
+                if iszero(eq(value_1, value_1)) { revert(0, 0) }
                 value := value_1
-                let value_3 := value_1
-                if iszero(eq(value_1, value_1))
-                {
-                    let _1 := 0
-                    let _2 := _1
-                    revert(_1, _1)
-                }
             }
             function abi_decode_uint256t_uint256(headStart, dataEnd) -> value0, value1
             {
-                if slt(sub(dataEnd, headStart), 64)
-                {
-                    let _1 := 0
-                    let _2 := _1
-                    revert(_1, _1)
-                }
-                value0 := abi_decode_uint256(add(headStart, 0))
-                value1 := abi_decode_uint256(add(headStart, 32))
+                if slt(sub(dataEnd, headStart), 64) { revert(0, 0) }
+                let offset := add(headStart, 0)
+                let end := dataEnd
+                let value := 0
+                let offset_1 := offset
+                let value_1 := value
+                value_1 := calldataload(offset)
+                let value_2 := value_1
+                if iszero(eq(value_1, value_1)) { revert(value, value) }
+                value := value_1
+                value0 := value_1
+                let offset_2 := add(headStart, 32)
+                let end_1 := dataEnd
+                let value_3 := 0
+                let offset_3 := offset_2
+                let value_4 := value_3
+                value_4 := calldataload(offset_2)
+                let value_5 := value_4
+                if iszero(eq(value_4, value_4)) { revert(value_3, value_3) }
+                value_3 := value_4
+                value1 := value_4
             }
             function abi_encode_uint256_to_uint256(value, pos)
             { mstore(pos, value) }
@@ -154,169 +115,97 @@ object "S_83" {
             }
             function external_fun_add1()
             {
-                if callvalue()
-                {
-                    let _1 := 0
-                    let _2 := _1
-                    revert(_1, _1)
-                }
-                let headStart := 4
-                let dataEnd := calldatasize()
-                let value0 := 0
-                let value1 := value0
-                if slt(sub(dataEnd, headStart), 64)
-                {
-                    let _3 := value0
-                    let _4 := value0
-                    revert(value0, value0)
-                }
-                value0 := abi_decode_uint256(add(headStart, value0))
-                value1 := abi_decode_uint256(add(headStart, 32))
-                let param := value0
-                let param_1 := value1
-                let var_a := value0
-                let var_b := value1
+                if callvalue() { revert(0, 0) }
+                let param, param_1 := abi_decode_uint256t_uint256(4, calldatasize())
+                let var_a := param
+                let var_b := param_1
                 let var := 0
                 let slot := var
-                let value := value0
-                sstore(var, update_byte_slice_shift(sload(var), value0))
-                var := checked_add_uint256(value0, value1)
+                let value := param
+                sstore(var, update_byte_slice_shift(sload(var), param))
+                var := checked_add_uint256(param, param_1)
                 let ret := var
                 let memPos := mload(64)
                 return(memPos, sub(abi_encode_uint256(memPos, var), memPos))
             }
             function external_fun_add()
             {
-                if callvalue()
-                {
-                    let _1 := 0
-                    let _2 := _1
-                    revert(_1, _1)
-                }
-                let headStart := 4
-                let dataEnd := calldatasize()
-                let value0 := 0
-                let value1 := value0
-                if slt(sub(dataEnd, headStart), 64)
-                {
-                    let _3 := value0
-                    let _4 := value0
-                    revert(value0, value0)
-                }
-                value0 := abi_decode_uint256(add(headStart, value0))
-                value1 := abi_decode_uint256(add(headStart, 32))
-                let param := value0
-                let param_1 := value1
-                let ret := checked_add_uint256(value0, value1)
+                if callvalue() { revert(0, 0) }
+                let param, param_1 := abi_decode_uint256t_uint256(4, calldatasize())
+                let var_a := param
+                let var_b := param_1
+                let var := 0
+                var := checked_add_uint256(param, param_1)
+                let ret := var
                 let memPos := mload(64)
-                return(memPos, sub(abi_encode_uint256(memPos, ret), memPos))
+                return(memPos, sub(abi_encode_uint256(memPos, var), memPos))
             }
             function abi_decode(headStart, dataEnd)
             {
-                if slt(sub(dataEnd, headStart), 0)
-                {
-                    let _1 := 0
-                    let _2 := _1
-                    revert(_1, _1)
-                }
+                if slt(sub(dataEnd, headStart), 0) { revert(0, 0) }
             }
             function external_fun_trigger()
             {
-                if callvalue()
-                {
-                    let _1 := 0
-                    let _2 := _1
-                    revert(_1, _1)
-                }
+                if callvalue() { revert(0, 0) }
                 let headStart := 4
                 let dataEnd := calldatasize()
-                if slt(sub(dataEnd, headStart), 0)
-                {
-                    let _3 := 0
-                    let _4 := _3
-                    revert(_3, _3)
-                }
+                if slt(sub(dataEnd, headStart), 0) { revert(0, 0) }
                 let var := 0
-                var := fun_empty(checked_add_uint256(extract_from_storage_value_offsett_uint256(sload(var)), 0x02))
+                var := fun_empty(fun_add(extract_from_storage_value_offsett_uint256(sload(var)), 0x02))
                 let ret := var
                 let memPos := mload(64)
                 return(memPos, sub(abi_encode_uint256(memPos, var), memPos))
             }
             function abi_decode_tuple_uint256(headStart, dataEnd) -> value0
             {
-                if slt(sub(dataEnd, headStart), 32)
-                {
-                    let _1 := 0
-                    let _2 := _1
-                    revert(_1, _1)
-                }
-                value0 := abi_decode_uint256(add(headStart, 0))
+                if slt(sub(dataEnd, headStart), 32) { revert(0, 0) }
+                let offset := add(headStart, 0)
+                let end := dataEnd
+                let value := 0
+                let offset_1 := offset
+                let value_1 := value
+                value_1 := calldataload(offset)
+                let value_2 := value_1
+                if iszero(eq(value_1, value_1)) { revert(value, value) }
+                value := value_1
+                value0 := value_1
             }
             function external_fun_empty()
             {
-                if callvalue()
-                {
-                    let _1 := 0
-                    let _2 := _1
-                    revert(_1, _1)
-                }
+                if callvalue() { revert(0, 0) }
                 let ret := fun_empty(abi_decode_tuple_uint256(4, calldatasize()))
                 let memPos := mload(64)
                 return(memPos, sub(abi_encode_uint256(memPos, ret), memPos))
             }
             function external_fun_empty1()
             {
-                if callvalue()
-                {
-                    let _1 := 0
-                    let _2 := _1
-                    revert(_1, _1)
-                }
-                let headStart := 4
-                let dataEnd := calldatasize()
-                let value0 := 0
-                let value1 := value0
-                if slt(sub(dataEnd, headStart), 64)
-                {
-                    let _3 := value0
-                    let _4 := value0
-                    revert(value0, value0)
-                }
-                value0 := abi_decode_uint256(add(headStart, value0))
-                value1 := abi_decode_uint256(add(headStart, 32))
-                let param := value0
-                let param_1 := value1
-                let var_a := value0
-                let var_b := value1
+                if callvalue() { revert(0, 0) }
+                let param, param_1 := abi_decode_uint256t_uint256(4, calldatasize())
+                let var_a := param
+                let var_b := param_1
                 let var := 0
-                var := checked_add_uint256(value0, value1)
-                let ret := var
+                let var_a_1 := param
+                let var_b_1 := param_1
+                let var_1 := var
+                var_1 := checked_add_uint256(param, param_1)
+                var := var_1
+                let ret := var_1
                 let memPos := mload(64)
-                return(memPos, sub(abi_encode_uint256(memPos, var), memPos))
+                return(memPos, sub(abi_encode_uint256(memPos, var_1), memPos))
             }
             function panic_error_0x11()
             {
-                let _1 := shl(224, 0x4e487b71)
-                let _2 := 0
-                mstore(_2, _1)
+                mstore(0, shl(224, 0x4e487b71))
                 mstore(4, 0x11)
-                let _3 := 0x24
-                let _4 := _2
-                revert(_2, _3)
+                revert(0, 0x24)
             }
             function checked_add_uint256(x, y) -> sum
             {
-                let x_1 := x
-                let y_1 := y
                 if gt(x, sub(not(0), y))
                 {
-                    let _1 := shl(224, 0x4e487b71)
-                    let _2 := 0
-                    mstore(_2, _1)
+                    mstore(0, shl(224, 0x4e487b71))
                     mstore(4, 0x11)
-                    let _3 := 0x24
-                    let _4 := _2
-                    revert(_2, _3)
+                    revert(0, 0x24)
                 }
                 sum := add(x, y)
             }
@@ -327,10 +216,8 @@ object "S_83" {
             function update_byte_slice_shift(value, toInsert) -> result
             {
                 let toInsert_1 := shl(0, toInsert)
-                let _1 := not(0)
-                let value_1 := and(value, not(_1))
-                let _2 := _1
-                result := or(value_1, and(toInsert_1, _1))
+                let value_1 := and(value, not(not(0)))
+                result := or(value_1, and(toInsert_1, not(0)))
             }
             function update_storage_value_offsett_uint256_to_uint256(slot, value)
             {
@@ -345,7 +232,11 @@ object "S_83" {
             }
             function fun_empty1(var_a, var_b) -> var
             {
-                var := checked_add_uint256(var_a, var_b)
+                let var_a_1 := var_a
+                let var_b_1 := var_b
+                let var_1 := 0
+                var_1 := checked_add_uint256(var_a, var_b)
+                var := var_1
             }
             function fun_empty(var_a) -> var
             {
@@ -359,16 +250,20 @@ object "S_83" {
                 var_1 := checked_add_uint256(var_a_2, var_b)
                 let var_b_1 := var_1
                 let var_2 := 0
-                var_2 := checked_add_uint256(var_a, var_1)
-                var := var_2
+                let var_a_3 := var_a
+                let var_b_2 := var_1
+                let var_3 := var_2
+                var_3 := checked_add_uint256(var_a, var_1)
+                var_2 := var_3
+                var := var_3
             }
             function extract_from_storage_value_offsett_uint256(slot_value) -> value
             { value := shr(0, slot_value) }
             function fun_trigger() -> var
             {
-                var := fun_empty(checked_add_uint256(extract_from_storage_value_offsett_uint256(sload(0x00)), 0x02))
+                var := fun_empty(fun_add(extract_from_storage_value_offsett_uint256(sload(0x00)), 0x02))
             }
         }
-        data ".metadata" hex"a26469706673582212205b2d2f1f4fbb3fc235a52898075dc7e0698a585efecdeca35cac5ba9618c0e2064736f6c634300080d0033"
+        data ".metadata" hex"a26469706673582212208557722e88f51b1a528dfdd15424be7eaa92b49fb5f694dcf9bace3c779f162e64736f6c634300080d0033"
     }
 }

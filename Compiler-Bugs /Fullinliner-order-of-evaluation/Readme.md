@@ -18,6 +18,8 @@ What do you need-
 3)Solidity Optimizer level between 0.6.7 and 0.8.21
 
 1)Examples with inline assembly
+
+
 Consider Example1.sol
 ```
 contract C {
@@ -68,25 +70,9 @@ dhfoDgvulfnTUtnIf xa[r]EscLM Vcul [j] Trpeul xa[r]cL gvifM CTUca[r]LSsTFOtfDnca[
 
 There's a glaring problem with this sequence,the prerequisites for r in which it recieves code in Non-expression-split-form and i(full-inliner) which recieves code in weak-Expression-Split-Form.*This is not a problem for code after solidity version 0.8.21*
 
-Consider Example3.sol
+Consider Example4.sol
 
-You might have a few questions,
-```
-    function empty1(uint256 a, uint256 b) public  returns (uint256) {
-        return add(a,b);
-    }
-    function empty(uint256 a) public  returns (uint256) {
-      return empty1(a,add1(2, 3));
-    }
-    function trigger() public  returns (uint256) {
-        return empty(add(x,2));
-    }
-```
-*What is going on here?*
-
-Well I tried to trick it into putting it into non-expression-split-form.
-
-*Well it doesnt look like it*
+Optimizer sequence used:solc t1.sol -o results --debug-info none   --overwrite --optimize --ir-optimized --yul-optimizations "dhfoDgvlfnTUtnIftreupl a[r]cL Vcul[j] i"
 
 Consider this 
 
@@ -110,8 +96,17 @@ var := fun_empty1(fun_add(extract_from_storage_value_offsett_uint256(sload(0x00)
 ```
 Which would allow it to be inlined.
 
+Now using this optimizer sequence here 
 ```
- function fun_empty(var_a) -> var
+ function fun_empty1(var_a, var_b) -> var
+            {
+                let var_a_1 := var_a
+                let var_b_1 := var_b
+                let var_1 := 0
+                var_1 := checked_add_uint256(var_a, var_b)
+                var := var_1
+            }
+            function fun_empty(var_a) -> var
             {
                 let var_a_1 := var_a
                 let var_a_2 := 0x02
@@ -123,43 +118,19 @@ Which would allow it to be inlined.
                 var_1 := checked_add_uint256(var_a_2, var_b)
                 let var_b_1 := var_1
                 let var_2 := 0
-                var_2 := checked_add_uint256(var_a, var_1)
-                var := var_2
+                let var_a_3 := var_a
+                let var_b_2 := var_1
+                let var_3 := var_2
+                var_3 := checked_add_uint256(var_a, var_1)
+                var_2 := var_3
+                var := var_3
             }
+            function extract_from_storage_value_offsett_uint256(slot_value) -> value
+            { value := shr(0, slot_value) }
             function fun_trigger() -> var
             {
-                var := fun_empty(checked_add_uint256(extract_from_storage_value_offsett_uint256(sload(0x00)), 0x02))
+                var := fun_empty(fun_add(extract_from_storage_value_offsett_uint256(sload(0x00)), 0x02))
             }
 ```
 
-Notice how again it does it from left to right,Completely chaging the order that it is supposed to be in.This also returns a value of 17.
-
-Now lets see what happens to it on a more stable version like 0.8.21
-
-```
-            function external_fun_trigger()
-            {
-                if callvalue() { revert(0, 0) }
-                let _1 := 0
-                if slt(add(calldatasize(), not(3)), _1) { revert(_1, _1) }
-                let _2 := sload(_1)
-                if gt(_2, not(2))
-                {
-                    mstore(_1, shl(224, 0x4e487b71))
-                    mstore(4, 0x11)
-                    revert(_1, 0x24)
-                }
-                sstore(_1, 0x02)
-                let var := checked_add_uint256_906(add(_2, 0x02))
-                let memPos := mload(64)
-                mstore(memPos, var)
-                return(memPos, 32)
-            }
-```
-
-Notice How it does this in the proper order.Also notice that it being the same code it returns a value of 12.
-
-Sequence used-
-```
-solc t.sol -o results --debug-info none   --overwrite --optimize --ir-optimized --yul-optimizations "dhfoDgvlfnTUtnIf a[r]EscLM Vcl Trpel a[r]cL [j] gvifM "
-```
+Notice 
