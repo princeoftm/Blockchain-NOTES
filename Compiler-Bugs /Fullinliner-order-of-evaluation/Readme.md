@@ -67,6 +67,32 @@ It returns a value,that its not supposed to.This is very dangerous and can lead 
     
 1)Consider Example4.sol(an example of different storage values inside them)
 
+```
+pragma solidity >=0.6.7 <0.8.29;
+
+contract S{
+  uint256 x = 10; 
+  function add(uint256 a,uint b) public  returns (uint256) {
+      x=b;
+      return a+b;
+    }
+  function add1(uint256 a,uint b) public  returns (uint256) {
+      x=a;
+      return a+b;
+    }
+
+    function empty1(uint256 a, uint256 b) public  returns (uint256) {
+        return add(a,b);
+    }
+    function empty(uint256 a) public  returns (uint256) {
+      return empty1(a,add1(2, 3));
+    }
+    function trigger() public  returns (uint256) {
+        return empty(add(x,2));
+    }
+}
+```
+
 Optimizer sequence used
 
 ```solc t1.sol -o results --debug-info none   --overwrite --optimize --ir-optimized --yul-optimizations "dhfoDgvlfnTUtnIftreupl a[r]cL Vcul[j] i"```
@@ -171,6 +197,44 @@ which it does in a correct order.
 
 2)Consider example 5(An example where it is supposed to revert but does not revert)
 
+
+
+
+
+
+Example5.sol
+
+
+```
+pragma solidity >=0.6.7 <0.8.29;
+
+contract S1{
+  uint256 x =0; 
+  function change() public  returns (uint256) {
+        x=10;
+        return 10;
+    }
+    function add(uint256 a,uint b) public  returns (uint256) {
+      return a+b;
+    }
+  function check() public  returns (uint256) {
+        require(x==10);
+        return 10;    
+    }
+
+    function empty1(uint256 a, uint256 b) public  returns (uint256) {
+        return add(a,b);
+    }
+    function empty(uint256 a) public  returns (uint256) {
+      return empty1(a,check());
+    }
+    function trigger() public  returns (uint256) {
+        return empty(change());
+    }
+}
+```
+
+
 The function check will always revert here as x==10 is not true .Using The same optimizer sequence above in 0.8.21 gives me this 
 
 
@@ -252,93 +316,3 @@ Remember var_a is change() which changes the value so that check will always bec
 
 
 Therefore i can say that,The bug has the potential to alter the behavior of a contract in a very significant way. Reordering reverts or returns may lead to storage writes, memory writes, or event emissions not being performed. It may also lead to the contract not reverting (and therefore not rolling back some operations) when it should or vice-versa.
-
-
-
-
-Codes used-
-
-
-Example1.sol
-
-```
-pragma solidity >=0.6.7 <0.8.29;
-
-contract C {
-    function f() public {
-        assembly  {
-            function fun_revert() -> ret { revert(0, 0) }
-            function fun_return() -> ret { return(0, 0) }
-            function empty(a, b) {}
-
-            empty(fun_return(), fun_revert())
-        }
-    }
-}
-
-
-```
-
-
-
-Example4.sol
-
-```
-pragma solidity >=0.6.7 <0.8.29;
-
-contract S{
-  uint256 x = 10; 
-  function add(uint256 a,uint b) public  returns (uint256) {
-      x=b;
-      return a+b;
-    }
-  function add1(uint256 a,uint b) public  returns (uint256) {
-      x=a;
-      return a+b;
-    }
-
-    function empty1(uint256 a, uint256 b) public  returns (uint256) {
-        return add(a,b);
-    }
-    function empty(uint256 a) public  returns (uint256) {
-      return empty1(a,add1(2, 3));
-    }
-    function trigger() public  returns (uint256) {
-        return empty(add(x,2));
-    }
-}
-```
-
-
-
-Example5.sol
-
-
-```
-pragma solidity >=0.6.7 <0.8.29;
-
-contract S1{
-  uint256 x =0; 
-  function change() public  returns (uint256) {
-        x=10;
-        return 10;
-    }
-    function add(uint256 a,uint b) public  returns (uint256) {
-      return a+b;
-    }
-  function check() public  returns (uint256) {
-        require(x==10);
-        return 10;    
-    }
-
-    function empty1(uint256 a, uint256 b) public  returns (uint256) {
-        return add(a,b);
-    }
-    function empty(uint256 a) public  returns (uint256) {
-      return empty1(a,check());
-    }
-    function trigger() public  returns (uint256) {
-        return empty(change());
-    }
-}
-```
