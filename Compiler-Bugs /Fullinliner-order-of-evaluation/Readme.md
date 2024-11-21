@@ -69,8 +69,7 @@ dhfoDgvulfnTUtnIf xa[r]EscLM Vcul [j] Trpeul xa[r]cL gvifM CTUca[r]LSsTFOtfDnca[
 ```
 
 There's a glaring problem with this sequence,the prerequisites for r in which it recieves code in Non-expression-split-form and i(full-inliner) which recieves code in weak-Expression-Split-Form.*This is not a problem for code after solidity version 0.8.21*
-
-Consider Example4.sol
+    1)Consider Example4.sol(an example of different storage)
 
 Optimizer sequence used:solc t1.sol -o results --debug-info none   --overwrite --optimize --ir-optimized --yul-optimizations "dhfoDgvlfnTUtnIftreupl a[r]cL Vcul[j] i"
 
@@ -133,4 +132,118 @@ Now using this optimizer sequence here
             }
 ```
 
-Notice 
+Notice how var_a executes before var_b
+
+
+Now executing this in a version where this bug is not present 
+
+```
+function fun_empty1(var_a, var_b) -> var
+            {
+                let var_b_1 := var_b
+                let var_a_1 := var_a
+                let var_1 := 0
+                let value := var_b
+                let slot := var_1
+                sstore(var_1, update_byte_slice_shift(sload(var_1), var_b))
+                var_1 := checked_add_uint256(var_a, var_b)
+                var := var_1
+            }
+            function fun_empty(var_a) -> var
+            {
+                var := fun_empty1(var_a, fun_add1(0x02, 0x03))
+            }
+            function extract_from_storage_value_offsett_uint256(slot_value) -> value
+            { value := shr(0, slot_value) }
+            function fun_trigger() -> var
+            {
+                var := fun_empty(fun_add(extract_from_storage_value_offsett_uint256(sload(0x00)), 0x02))
+            }
+```
+
+which it does in a correct order.
+
+
+    2)Consider example 5(An example where it is supposed to revert but does not revert)
+
+The function check will always revert here as x==10 is not true in all cases.Using The same optimizer sequence above in 0.8.21 gives me this 
+
+
+```
+function fun_empty1(var_a, var_b) -> var
+            {
+                let var_b_1 := var_b
+                let var_a_1 := var_a
+                let var_1 := 0
+                let y := var_b
+                let x := var_a
+                let sum := var_1
+                sum := add(var_a, var_b)
+                if gt(var_a, sum)
+                {
+                    mstore(var_1, shl(224, 0x4e487b71))
+                    mstore(4, 0x11)
+                    revert(var_1, 0x24)
+                }
+                var_1 := sum
+                var := sum
+            }
+            function fun_empty(var_a) -> var
+            {
+                var := fun_empty1(var_a, fun_check())
+            }
+            function fun_trigger() -> var
+            {
+                var := fun_empty(fun_change())
+            }
+        }
+```
+As var_b(fun_check()) gets executed first it always reverts,But Now using the same optimizer sequence in 0.8.13 i get
+
+```
+function fun_empty1(var_a, var_b) -> var
+            {
+                let var_a_1 := var_a
+                let var_b_1 := var_b
+                let var_1 := 0
+                let slot := var_1
+                let value := var_b
+                sstore(var_1, update_byte_slice_shift(sload(var_1), var_b))
+                var_1 := checked_add_uint256(var_a, var_b)
+                var := var_1
+            }
+            function fun_empty(var_a) -> var
+            {
+                let var_a_1 := var_a
+                let var_a_2 := 0x02
+                let var_b := 0x03
+                let var_1 := 0
+                let slot := var_1
+                let value := var_a_2
+                sstore(var_1, update_byte_slice_shift(sload(var_1), var_a_2))
+                var_1 := checked_add_uint256(var_a_2, var_b)
+                let var_b_1 := var_1
+                let var_2 := 0
+                let var_a_3 := var_a
+                let var_b_2 := var_1
+                let var_3 := var_2
+                let slot_1 := var_2
+                let value_1 := var_1
+                sstore(var_2, update_byte_slice_shift(sload(var_2), var_1))
+                var_3 := checked_add_uint256(var_a, var_1)
+                var_2 := var_3
+                var := var_3
+            }
+            function extract_from_storage_value_offsett_uint256(slot_value) -> value
+            { value := shr(0, slot_value) }
+            function fun_trigger() -> var
+            {
+                var := fun_empty(fun_add(extract_from_storage_value_offsett_uint256(sload(0x00)), 0x02))
+            }
+```
+
+Remember var_a is change() which changes the value so that check will always become true;
+
+
+
+Therefore i can say that,The bug has the potential to alter the behavior of a contract in a very significant way. Reordering reverts or returns may lead to storage writes, memory writes, or event emissions not being performed. It may also lead to the contract not reverting (and therefore not rolling back some operations) when it should or vice-versa.
