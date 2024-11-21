@@ -13,6 +13,10 @@ What do you need-
 2)An Nested-Function call with side effects
 3)Solidity Optimizer level between 0.6.7 and 0.8.21
 
+
+
+P.S the codes referenced are at the end of the file
+
 *Examples with inline assembly*
 
 
