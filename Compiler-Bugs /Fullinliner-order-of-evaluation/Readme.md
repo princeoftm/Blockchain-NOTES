@@ -374,11 +374,20 @@ Therefore i can say that,The bug has the potential to alter the behavior of a co
 
 
 Code References
+
 Example1.sol
+
 Demonstrates reordering of revert and return.
+
+
 Example4.sol
+
 Highlights unexpected storage and memory changes.
+
 Example5.sol
+
 Illustrates incorrect revert logic.
+
 Example6.sol
+
 Illustrages different storage values.
