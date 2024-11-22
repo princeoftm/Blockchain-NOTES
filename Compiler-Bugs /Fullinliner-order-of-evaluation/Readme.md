@@ -371,3 +371,14 @@ Notice How fun_add1(_2,0x03) is treated as a literal here.This also means it is 
 
 
 Therefore i can say that,The bug has the potential to alter the behavior of a contract in a very significant way. Reordering reverts or returns may lead to storage writes, memory writes, or event emissions not being performed. It may also lead to the contract not reverting (and therefore not rolling back some operations) when it should or vice-versa.
+
+
+Code References
+Example1.sol
+Demonstrates reordering of revert and return.
+Example4.sol
+Highlights unexpected storage and memory changes.
+Example5.sol
+Illustrates incorrect revert logic.
+Example6.sol
+Illustrages different storage values.
