@@ -312,6 +312,9 @@ function fun_empty1(var_a, var_b) -> var
 ```
 
 Remember var_a is change() which changes the value so that check will always become true;
+-0--0--0--0--0--0--0--0--0--0--0--0--0--0--0--0--0--0--0--0--0--0--0--0--0--0--0--0--0--0--0--0--0--0--0--0--0--0--0--0-
+Ignore,Under Review
+
 
 3)Consider Example6.sol.(Calling those functions directly)
 
